@@ -1,7 +1,6 @@
 package fr.em_ilien.connect4;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import org.junit.jupiter.api.AfterEach;
@@ -59,6 +58,22 @@ class GameTest {
 		Game game = new Game();
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> game.play(-1));
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> game.play(7));
+	}
+
+	@Test
+	void alternateColors() {
+		Game game = new Game();
+		game.play(0);
+		assertThat(game.getToken(0, 0).isYellow()).isTrue();
+		assertThat(game.getToken(0, 0).isRed()).isFalse();
+
+		game.play(0);
+		assertThat(game.getToken(0, 1).isYellow()).isFalse();
+		assertThat(game.getToken(0, 1).isRed()).isTrue();
+
+		// retest first token didn't change
+		assertThat(game.getToken(0, 0).isYellow()).isTrue();
+		assertThat(game.getToken(0, 0).isRed()).isFalse();
 	}
 
 }

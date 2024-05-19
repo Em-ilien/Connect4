@@ -11,10 +11,10 @@ public class Column {
 		tokens = new ArrayList<Token>();
 	}
 
-	public void play() {
+	public void play(Color color) {
 		if (tokens.size() + 1 > ROW_NUMBERS)
 			throw new IllegalStateException();
-		tokens.add(new Token());
+		tokens.add(new Token(color));
 	}
 
 	public Token get(int row) {
