@@ -5,19 +5,27 @@ import java.util.List;
 
 public class Column {
 	private static final int ROW_NUMBERS = 6;
-	private List<Token> tokens;
 
-	public Column() {
+	private List<Token> tokens;
+	private Game game;
+
+	public Column(Game game) {
+		this.game = game;
 		tokens = new ArrayList<Token>();
 	}
 
-	public void play(Color color) {
-		if (tokens.size() + 1 > ROW_NUMBERS)
+	public void play() {
+		if (!canPlay())
 			throw new IllegalStateException();
-		tokens.add(new Token(color));
+		tokens.add(new Token(game.getCurrentColor()));
+		game.updateStatus();
 	}
 
-	public Token get(int row) {
+	private boolean canPlay() {
+		return tokens.size() + 1 <= ROW_NUMBERS;
+	}
+
+	public Token getTokenAtRow(int row) {
 		if (row >= tokens.size())
 			return null;
 		return tokens.get(row);

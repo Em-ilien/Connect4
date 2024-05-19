@@ -1,35 +1,18 @@
 package fr.em_ilien.connect4;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Game {
-
-	public static final int COLUMNS_NUMBER = 7;
-
-	private Map<EventType, List<Executable>> listeners = new HashMap<>();
-
-	private List<Column> columns;
+	private Grid grid;
 	private Color currentColor;
+	public EventManager eventManager;
 
 	public Game() {
-		initColumn();
+		grid = new Grid(this);
 		currentColor = Color.YELLOW;
+		eventManager = new EventManager();
 	}
 
-	public void play(int column) {
-		columns.get(column).play(currentColor);
-
-		if (isGameFinished())
-			notifyListeners(EventType.STOP_GAME);
-		else
-			currentColor = currentColor.getOther();
-	}
-
-	public boolean isGameFinished() {
-		return getWinner() != null;
+	public Color getCurrentColor() {
+		return currentColor;
 	}
 
 	public Color getWinner() {
@@ -37,41 +20,22 @@ public class Game {
 		return stopCondition.getWinner();
 	}
 
-	private void notifyListeners(EventType eventType) {
-		final List<Executable> listeners = this.listeners.get(eventType);
-		if (listeners == null)
-			return;
-
-		for (Executable executable : listeners)
-			try {
-				executable.execute();
-			} catch (Throwable e1) {
-				e1.printStackTrace();
-			}
+	public Grid getGrid() {
+		return this.grid;
 	}
 
-	private void initColumn() {
-		columns = new ArrayList<Column>();
-
-		for (int i = 0; i < COLUMNS_NUMBER; i++)
-			columns.add(new Column());
+	protected void updateStatus() {
+		if (isGameFinished())
+			eventManager.notifyListeners(this, EventType.STOP_GAME);
+		else
+			changeCurrentColor();
 	}
 
-	public Token getToken(int column, int row) {
-		return columns.get(column).get(row);
+	private void changeCurrentColor() {
+		currentColor = currentColor.getOther();
 	}
 
-	public boolean isTokenPlayed(int column, int row) {
-		return getToken(column, row) != null;
+	private boolean isGameFinished() {
+		return getWinner() != null;
 	}
-
-	public void addEventListener(EventType stopGame, Executable executable) {
-		List<Executable> typeListeners = this.listeners.get(stopGame);
-		if (typeListeners == null) {
-			typeListeners = new ArrayList<Executable>();
-			this.listeners.put(stopGame, typeListeners);
-		}
-		typeListeners.add(executable);
-	}
-
 }

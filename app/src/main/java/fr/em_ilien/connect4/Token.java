@@ -1,7 +1,6 @@
 package fr.em_ilien.connect4;
 
 public class Token {
-
 	private Color color;
 
 	public Token(Color color) {
@@ -19,5 +18,4 @@ public class Token {
 	public Color getColor() {
 		return color;
 	}
-
 }

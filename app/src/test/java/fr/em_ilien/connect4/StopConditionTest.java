@@ -23,19 +23,19 @@ class StopConditionTest {
 		AtomicBoolean isFinished = new AtomicBoolean(false);
 
 		Game game = new Game();
-		game.addEventListener(EventType.STOP_GAME, () -> {
+		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
 			isFinished.set(true);
 		});
 
-		game.play(0);
-		game.play(0);
-		game.play(1);
-		game.play(1);
-		game.play(2);
-		game.play(2);
+		game.getGrid().getColumn(0).play();
+		game.getGrid().getColumn(0).play();
+		game.getGrid().getColumn(1).play();
+		game.getGrid().getColumn(1).play();
+		game.getGrid().getColumn(2).play();
+		game.getGrid().getColumn(2).play();
 
 		assertThat(isFinished.get()).isFalse();
-		game.play(3);
+		game.getGrid().getColumn(3).play();
 		assertThat(isFinished.get()).isTrue();
 	}
 
