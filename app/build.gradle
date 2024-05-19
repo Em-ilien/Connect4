@@ -36,7 +36,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'fr.em_ilien.App'
+    // mainClass = 'fr.em_ilien.App'
 }
 
 tasks.named('test') {
