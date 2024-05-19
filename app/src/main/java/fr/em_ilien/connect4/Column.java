@@ -13,7 +13,7 @@ public class Column {
 
 	public void play() {
 		if (tokens.size() + 1 > ROW_NUMBERS)
-			return;
+			throw new IllegalStateException();
 		tokens.add(new Token());
 	}
 
