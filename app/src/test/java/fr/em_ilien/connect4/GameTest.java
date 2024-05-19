@@ -17,9 +17,16 @@ class GameTest {
 	}
 
 	@Test
-	void testCreateANewGame() {
+	void createANewGame() {
 		Game game = new Game();
 		assertThat(game).isInstanceOf(Game.class);
+	}
+	
+	@Test
+	void placeAToken() {
+		Game game = new Game();
+		game.play(4);
+		assertThat(game.getCell(4,1).isPlayed()).isTrue();
 	}
 
 }
