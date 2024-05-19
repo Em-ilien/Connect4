@@ -52,4 +52,5 @@ public class StopCondition {
 		} while (Math.abs(MIDDLE_COLUMN - column) < REQUIRED_ALIGNED_TOKENS_TO_WIN - 1);
 		return coloredCell;
 	}
+	
 }
