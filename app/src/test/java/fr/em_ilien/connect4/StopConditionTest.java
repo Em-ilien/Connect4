@@ -23,7 +23,7 @@ class StopConditionTest {
 		AtomicBoolean isFinished = new AtomicBoolean(false);
 
 		Game game = new Game();
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
 			isFinished.set(true);
 		});
 
@@ -44,7 +44,7 @@ class StopConditionTest {
 		AtomicBoolean isFinished = new AtomicBoolean(false);
 
 		Game game = new Game();
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
 			isFinished.set(true);
 		});
 
@@ -65,7 +65,7 @@ class StopConditionTest {
 		AtomicBoolean isFinished = new AtomicBoolean(false);
 
 		Game game = new Game();
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
 			isFinished.set(true);
 		});
 
@@ -86,7 +86,7 @@ class StopConditionTest {
 		AtomicBoolean isFinished = new AtomicBoolean(false);
 
 		Game game = new Game();
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
 			isFinished.set(true);
 		});
 

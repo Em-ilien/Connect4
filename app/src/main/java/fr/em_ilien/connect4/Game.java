@@ -3,7 +3,7 @@ package fr.em_ilien.connect4;
 public class Game {
 	private Grid grid;
 	private Color currentColor;
-	public EventManager eventManager;
+	private EventManager eventManager;
 
 	public Game() {
 		grid = new Grid(this);
@@ -22,6 +22,10 @@ public class Game {
 
 	public Grid getGrid() {
 		return this.grid;
+	}
+
+	public EventManager getEventManager() {
+		return eventManager;
 	}
 
 	protected void updateStatus() {

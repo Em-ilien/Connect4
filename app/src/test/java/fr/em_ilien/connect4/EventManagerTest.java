@@ -30,8 +30,8 @@ class EventManagerTest {
 	@Test
 	void stopGameWithTwoListeners() {
 		Game game = new Game();
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {});
-		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {});
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {});
+		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {});
 		game.getGrid().getColumn(0).play();
 		game.getGrid().getColumn(0).play();
 		game.getGrid().getColumn(1).play();

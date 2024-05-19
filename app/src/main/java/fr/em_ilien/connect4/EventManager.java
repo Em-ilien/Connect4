@@ -8,11 +8,11 @@ import java.util.Map;
 public class EventManager {
 	private Map<EventType, List<Executable>> listeners = new HashMap<>();
 
-	public void addEventListener(Game game, EventType stopGame, Executable executable) {
-		List<Executable> typeListeners = this.listeners.get(stopGame);
+	public void addEventListener(Game game, EventType eventType, Executable executable) {
+		List<Executable> typeListeners = this.listeners.get(eventType);
 		if (typeListeners == null) {
 			typeListeners = new ArrayList<Executable>();
-			this.listeners.put(stopGame, typeListeners);
+			this.listeners.put(eventType, typeListeners);
 		}
 		typeListeners.add(executable);
 	}
