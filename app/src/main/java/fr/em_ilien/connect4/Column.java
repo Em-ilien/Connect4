@@ -31,4 +31,8 @@ public class Column {
 		return tokens.get(row);
 	}
 
+	public boolean isTokenPlayed(int row) {
+		return getTokenAtRow(row) != null;
+	}
+
 }

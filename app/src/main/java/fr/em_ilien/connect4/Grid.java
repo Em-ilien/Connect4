@@ -20,10 +20,6 @@ public class Grid {
 			columns.add(new Column(game));
 	}
 
-	public boolean isTokenPlayed(int column, int row) {
-		return getColumn(column).getTokenAtRow(row) != null;
-	}
-
 	public Column getColumn(int column) {
 		if (column >= columns.size())
 			throw new IndexOutOfBoundsException();

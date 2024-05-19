@@ -27,9 +27,9 @@ class GameTest {
 	void placeAToken() {
 		Game game = new Game();
 		game.getGrid().getColumn(3).play();
-		assertThat(game.getGrid().isTokenPlayed(3, 0)).isTrue();
-		assertThat(game.getGrid().isTokenPlayed(3, 1)).isFalse();
-		assertThat(game.getGrid().isTokenPlayed(0, 0)).isFalse();
+		assertThat(game.getGrid().getColumn(3).isTokenPlayed(0)).isTrue();
+		assertThat(game.getGrid().getColumn(3).isTokenPlayed(1)).isFalse();
+		assertThat(game.getGrid().getColumn(0).isTokenPlayed(0)).isFalse();
 	}
 
 	@Test
@@ -37,8 +37,8 @@ class GameTest {
 		Game game = new Game();
 		game.getGrid().getColumn(3).play();
 		game.getGrid().getColumn(3).play();
-		assertThat(game.getGrid().isTokenPlayed(3, 0)).isTrue();
-		assertThat(game.getGrid().isTokenPlayed(3, 1)).isTrue();
+		assertThat(game.getGrid().getColumn(3).isTokenPlayed(0)).isTrue();
+		assertThat(game.getGrid().getColumn(3).isTokenPlayed(1)).isTrue();
 	}
 
 	@Test
