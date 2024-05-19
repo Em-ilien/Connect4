@@ -25,8 +25,10 @@ class GameTest {
 	@Test
 	void placeAToken() {
 		Game game = new Game();
-		game.play(4);
-		assertThat(game.getCell(4,1).isPlayed()).isTrue();
+		game.play(3);
+		assertThat(game.getCell(3,0).isPlayed()).isTrue();
+		assertThat(game.getCell(3,1).isPlayed()).isFalse();
+		assertThat(game.getCell(0,0).isPlayed()).isFalse();
 	}
 
 }
