@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class StopConditionTest {
@@ -18,140 +19,144 @@ class StopConditionTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-	void stopConditionRow() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
+	@Nested
+	class HorizontallyStopConditionTest {
+		@Test
+		void stopConditionRow() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
 
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
 
-		game.getGrid().getColumn(0).play();
-		game.getGrid().getColumn(0).play();
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(0).play();
+			game.getGrid().getColumn(0).play();
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(2).play();
 
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(3).play();
-		assertThat(isFinished.get()).isTrue();
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(3).play();
+			assertThat(isFinished.get()).isTrue();
+		}
+
+		@Test
+		void stopConditionRowRight() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
+
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
+
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(4).play();
+			game.getGrid().getColumn(4).play();
+			game.getGrid().getColumn(5).play();
+			game.getGrid().getColumn(5).play();
+
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(6).play();
+			assertThat(isFinished.get()).isTrue();
+		}
+
+		@Test
+		void stopConditionMiddle() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
+
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
+
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(4).play();
+			game.getGrid().getColumn(4).play();
+
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(5).play();
+			assertThat(isFinished.get()).isTrue();
+		}
+
+		@Test
+		void stopConditionRow2() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
+
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
+
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(4).play();
+			game.getGrid().getColumn(5).play();
+			game.getGrid().getColumn(6).play();
+
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(6).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(6).play();
+			game.getGrid().getColumn(3).play();
+			game.getGrid().getColumn(1).play();
+
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(4).play();
+			assertThat(isFinished.get()).isTrue();
+		}
 	}
 
-	@Test
-	void stopConditionRowRight() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
+	@Nested
+	class VerticallyStopConditionTest {
 
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
+		@Test
+		void stopConditionVertically() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
 
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(4).play();
-		game.getGrid().getColumn(4).play();
-		game.getGrid().getColumn(5).play();
-		game.getGrid().getColumn(5).play();
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
 
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(6).play();
-		assertThat(isFinished.get()).isTrue();
-	}
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(2).play();
 
-	@Test
-	void stopConditionMiddle() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(1).play();
+			assertThat(isFinished.get()).isTrue();
+		}
 
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
+		@Test
+		void stopConditionVerticallyRight() {
+			AtomicBoolean isFinished = new AtomicBoolean(false);
 
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(4).play();
-		game.getGrid().getColumn(4).play();
+			Game game = new Game();
+			game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
+				isFinished.set(true);
+			});
 
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(5).play();
-		assertThat(isFinished.get()).isTrue();
-	}
+			game.getGrid().getColumn(6).play();
+			game.getGrid().getColumn(1).play();
+			game.getGrid().getColumn(6).play();
+			game.getGrid().getColumn(2).play();
+			game.getGrid().getColumn(6).play();
+			game.getGrid().getColumn(3).play();
 
-	@Test
-	void stopConditionRow2() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
-
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
-
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(4).play();
-		game.getGrid().getColumn(5).play();
-		game.getGrid().getColumn(6).play();
-
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(6).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(6).play();
-		game.getGrid().getColumn(3).play();
-		game.getGrid().getColumn(1).play();
-
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(4).play();
-		assertThat(isFinished.get()).isTrue();
-	}
-	
-	@Test
-	void stopConditionVertically() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
-
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
-
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(2).play();
-		
-		
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(1).play();
-		assertThat(isFinished.get()).isTrue();
-	}
-	
-
-	@Test
-	void stopConditionVerticallyRight() {
-		AtomicBoolean isFinished = new AtomicBoolean(false);
-
-		Game game = new Game();
-		game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-			isFinished.set(true);
-		});
-
-		game.getGrid().getColumn(6).play();
-		game.getGrid().getColumn(1).play();
-		game.getGrid().getColumn(6).play();
-		game.getGrid().getColumn(2).play();
-		game.getGrid().getColumn(6).play();
-		game.getGrid().getColumn(3).play();
-		
-		
-		assertThat(isFinished.get()).isFalse();
-		game.getGrid().getColumn(6).play();
-		assertThat(isFinished.get()).isTrue();
+			assertThat(isFinished.get()).isFalse();
+			game.getGrid().getColumn(6).play();
+			assertThat(isFinished.get()).isTrue();
+		}
 	}
 
 }
