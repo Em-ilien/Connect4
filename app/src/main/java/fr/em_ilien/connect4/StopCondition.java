@@ -6,6 +6,7 @@ import java.util.List;
 public class StopCondition {
 	private static final int REQUIRED_ALIGNED_TOKENS_TO_WIN = 4;
 	private static final int MIDDLE_COLUMN = 4 - 1;
+	private static final int MIDDLE_ROW = 4 - 1;
 
 	private Grid grid;
 
@@ -14,14 +15,21 @@ public class StopCondition {
 	}
 
 	public Color getWinner() {
-		final Color color = checkIfWinnerOnHorinzontalLines();
+		Color color = null;
+
+		color = checkIfWinnerOnHorinzontalLines();
 		if (color != null)
 			return color;
+
+		color = checkIfWinnerOnVerticalLines();
+		if (color != null)
+			return color;
+
 		return null;
 	}
 
 	private Color checkIfWinnerOnHorinzontalLines() {
-		for (int i = 0; i < Grid.COLUMNS_NUMBER; i++) {
+		for (int i = 0; i < Grid.ROWS_NUMBER; i++) {
 			if (this.grid.getColumn(MIDDLE_COLUMN).getTokenAtRow(i) == null)
 				continue;
 			final Color color = this.grid.getColumn(MIDDLE_COLUMN).getTokenAtRow(i).getColor();
@@ -52,5 +60,38 @@ public class StopCondition {
 		} while (Math.abs(MIDDLE_COLUMN - column) < REQUIRED_ALIGNED_TOKENS_TO_WIN - 1);
 		return coloredCell;
 	}
-	
+
+	private Color checkIfWinnerOnVerticalLines() {
+		for (int i = 0; i < Grid.COLUMNS_NUMBER; i++) {
+			if (this.grid.getColumn(i).getTokenAtRow(MIDDLE_ROW) == null)
+				continue;
+			final Color color = this.grid.getColumn(i).getTokenAtRow(MIDDLE_ROW).getColor();
+
+			final List<Integer> coloredCell = new ArrayList<>();
+			coloredCell.add(MIDDLE_ROW);
+			coloredCell.addAll(fetchTokenWithSameColorInColumn(i, color, true));
+			coloredCell.addAll(fetchTokenWithSameColorInColumn(i, color, false));
+
+			if (coloredCell.size() >= REQUIRED_ALIGNED_TOKENS_TO_WIN)
+				return color;
+		}
+		return null;
+	}
+
+	private List<Integer> fetchTokenWithSameColorInColumn(int column, final Color color, boolean checkBottomRows) {
+		final List<Integer> coloredCell = new ArrayList<>();
+		int row = MIDDLE_ROW;
+		do {
+			if (checkBottomRows)
+				row--;
+			else
+				row++;
+			final Token token = this.grid.getColumn(column).getTokenAtRow(row);
+			if (token == null || token.getColor() != color)
+				break;
+			coloredCell.add(row);
+		} while (Math.abs(MIDDLE_COLUMN - row) < REQUIRED_ALIGNED_TOKENS_TO_WIN - 1);
+		return coloredCell;
+	}
+
 }

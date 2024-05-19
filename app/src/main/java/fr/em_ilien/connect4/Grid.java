@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Grid {
 	public static final int COLUMNS_NUMBER = 7;
+	public static final int ROWS_NUMBER = 6;
 
 	private List<Column> columns;
 	private Game game;

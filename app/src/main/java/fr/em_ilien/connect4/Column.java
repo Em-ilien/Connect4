@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Column {
-	private static final int ROW_NUMBERS = 6;
 
 	private List<Token> tokens;
 	private Game game;
@@ -22,7 +21,7 @@ public class Column {
 	}
 
 	private boolean canPlay() {
-		return tokens.size() + 1 <= ROW_NUMBERS;
+		return tokens.size() + 1 <= Grid.ROWS_NUMBER;
 	}
 
 	public Token getTokenAtRow(int row) {
