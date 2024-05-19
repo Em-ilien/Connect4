@@ -1,11 +1,15 @@
 package fr.em_ilien.connect4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
-	private static final int COLUMNS_NUMBER = 7;
+	public static final int COLUMNS_NUMBER = 7;
+
+	private Map<EventType, List<Executable>> listeners = new HashMap<>();
 
 	private List<Column> columns;
 	private Color currentColor;
@@ -17,7 +21,25 @@ public class Game {
 
 	public void play(int column) {
 		columns.get(column).play(currentColor);
-		currentColor = currentColor.getOther();
+
+		final StopCondition stopCondition = new StopCondition(this);
+		if (stopCondition.isGameFinished())
+			notifyListeners(EventType.STOP_GAME);
+		else
+			currentColor = currentColor.getOther();
+	}
+
+	private void notifyListeners(EventType eventType) {
+		final List<Executable> listeners = this.listeners.get(eventType);
+		if (listeners == null)
+			return;
+
+		for (Executable executable : listeners)
+			try {
+				executable.execute();
+			} catch (Throwable e1) {
+				e1.printStackTrace();
+			}
 	}
 
 	private void initColumn() {
@@ -33,6 +55,15 @@ public class Game {
 
 	public boolean isTokenPlayed(int column, int row) {
 		return getToken(column, row) != null;
+	}
+
+	public void addEventListener(EventType stopGame, Executable executable) {
+		List<Executable> typeListeners = this.listeners.get(stopGame);
+		if (typeListeners == null) {
+			typeListeners = new ArrayList<Executable>();
+			this.listeners.put(stopGame, typeListeners);
+		}
+		typeListeners.add(executable);
 	}
 
 }

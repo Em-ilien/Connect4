@@ -16,4 +16,8 @@ public class Token {
 		return color == Color.RED;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
 }
