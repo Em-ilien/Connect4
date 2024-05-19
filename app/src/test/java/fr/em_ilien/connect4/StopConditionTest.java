@@ -38,5 +38,50 @@ class StopConditionTest {
 		game.getGrid().getColumn(3).play();
 		assertThat(isFinished.get()).isTrue();
 	}
+	
+
+	@Test
+	void stopConditionRowRight() {
+		AtomicBoolean isFinished = new AtomicBoolean(false);
+
+		Game game = new Game();
+		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+			isFinished.set(true);
+		});
+
+		game.getGrid().getColumn(3).play();
+		game.getGrid().getColumn(3).play();
+		game.getGrid().getColumn(4).play();
+		game.getGrid().getColumn(4).play();
+		game.getGrid().getColumn(5).play();
+		game.getGrid().getColumn(5).play();
+
+		assertThat(isFinished.get()).isFalse();
+		game.getGrid().getColumn(6).play();
+		assertThat(isFinished.get()).isTrue();
+	}
+	
+
+	@Test
+	void stopConditionMiddle() {
+		AtomicBoolean isFinished = new AtomicBoolean(false);
+
+		Game game = new Game();
+		game.eventManager.addEventListener(game, EventType.STOP_GAME, () -> {
+			isFinished.set(true);
+		});
+
+		game.getGrid().getColumn(2).play();
+		game.getGrid().getColumn(2).play();
+		game.getGrid().getColumn(3).play();
+		game.getGrid().getColumn(3).play();
+		game.getGrid().getColumn(4).play();
+		game.getGrid().getColumn(4).play();
+
+		assertThat(isFinished.get()).isFalse();
+		game.getGrid().getColumn(5).play();
+		assertThat(isFinished.get()).isTrue();
+	}
+	
 
 }

@@ -23,10 +23,6 @@ public class EventManager {
 			return;
 
 		for (Executable executable : listeners)
-			try {
-				executable.execute();
-			} catch (Throwable e1) {
-				e1.printStackTrace();
-			}
+			executable.execute();
 	}
 }
