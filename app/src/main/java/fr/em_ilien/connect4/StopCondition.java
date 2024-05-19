@@ -25,6 +25,13 @@ public class StopCondition {
 		if (color != null)
 			return color;
 
+		color = checkIfWinnerOnDiagonalLeftToRight();
+		if (color != null)
+			return color;
+
+		color = checkIfWinnerOnDiagonalRightToLeft();
+		if (color != null)
+			return color;
 		return null;
 	}
 
@@ -92,6 +99,56 @@ public class StopCondition {
 			coloredCell.add(row);
 		} while (Math.abs(MIDDLE_COLUMN - row) < REQUIRED_ALIGNED_TOKENS_TO_WIN - 1);
 		return coloredCell;
+	}
+
+	private Color checkIfWinnerOnDiagonalLeftToRight() {
+		for (int i = 0; i < Grid.ROWS_NUMBER; i++) {
+			for (int j = 0; j < Grid.COLUMNS_NUMBER; j++) {
+				if (this.grid.getColumn(j).getTokenAtRow(i) == null)
+					continue;
+				final Color color = this.grid.getColumn(j).getTokenAtRow(i).getColor();
+
+				if (checkDiagonalLeftToRight(i, j, color, 1) >= REQUIRED_ALIGNED_TOKENS_TO_WIN)
+					return color;
+			}
+		}
+		return null;
+	}
+
+	private Color checkIfWinnerOnDiagonalRightToLeft() {
+		for (int i = 0; i < Grid.ROWS_NUMBER; i++) {
+			for (int j = 0; j < Grid.COLUMNS_NUMBER; j++) {
+				if (this.grid.getColumn(j).getTokenAtRow(i) == null)
+					continue;
+				final Color color = this.grid.getColumn(j).getTokenAtRow(i).getColor();
+
+				if (checkDiagonalRightToLeft(i, j, color, 1) >= REQUIRED_ALIGNED_TOKENS_TO_WIN)
+					return color;
+			}
+		}
+		return null;
+	}
+
+	private int checkDiagonalLeftToRight(int row, int column, final Color color, int count) {
+		if (row >= Grid.ROWS_NUMBER - 1 || column >= Grid.COLUMNS_NUMBER - 1)
+			return count;
+
+		final Token token = this.grid.getColumn(column + 1).getTokenAtRow(row + 1);
+		if (token == null || token.getColor() != color)
+			return count;
+
+		return checkDiagonalLeftToRight(row + 1, column + 1, color, count + 1);
+	}
+
+	private int checkDiagonalRightToLeft(int row, int column, final Color color, int count) {
+		if (row >= Grid.ROWS_NUMBER - 1 || column <= 0)
+			return count;
+
+		final Token token = this.grid.getColumn(column - 1).getTokenAtRow(row + 1);
+		if (token == null || token.getColor() != color)
+			return count;
+
+		return checkDiagonalRightToLeft(row + 1, column - 1, color, count + 1);
 	}
 
 }
