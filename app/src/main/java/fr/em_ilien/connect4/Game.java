@@ -6,31 +6,30 @@ import java.util.List;
 public class Game {
 
 	private static final int COLUMNS_NUMBER = 7;
-	private static final int ROW_NUMBERS = 6;
 
-	private List<List<Cell>> cells;
+	private List<Column> columns;
 
 	public Game() {
-		initCells();
+		initColumn();
 	}
 
 	public void play(int column) {
-		cells.get(column).get(0).markAsPlayed();
+		columns.get(column).play();
 	}
 
-	private void initCells() {
-		cells = new ArrayList<List<Cell>>();
+	private void initColumn() {
+		columns = new ArrayList<Column>();
 
-		for (int i = 0; i < COLUMNS_NUMBER; i++) {
-			final ArrayList<Cell> row = new ArrayList<Cell>();
-			for (int j = 0; j < ROW_NUMBERS; j++)
-				row.add(new Cell(i, j));
-			cells.add(row);
-		}
+		for (int i = 0; i < COLUMNS_NUMBER; i++)
+			columns.add(new Column());
 	}
 
-	public Cell getCell(int column, int row) {
-		return cells.get(column).get(row);
+	public Token getToken(int column, int row) {
+		return columns.get(column).get(row);
+	}
+
+	public boolean isTokenPlayed(int column, int row) {
+		return getToken(column, row) != null;
 	}
 
 }
