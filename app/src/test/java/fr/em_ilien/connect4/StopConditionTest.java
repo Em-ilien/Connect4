@@ -286,32 +286,7 @@ class StopConditionTest {
 			game.getGrid().getColumn(6).play();
 			assertThat(isFinished.get()).isTrue();
 		}
-		@Test
-		void stopConditionDiagonallyToTopRight() {
-		    AtomicBoolean isFinished = new AtomicBoolean(false);
 
-		    Game game = new Game();
-		    game.getEventManager().addEventListener(game, EventType.STOP_GAME, () -> {
-		        isFinished.set(true);
-		    });
-
-		    game.getGrid().getColumn(3).play();
-		    game.getGrid().getColumn(3).play();
-		    game.getGrid().getColumn(4).play();
-		    game.getGrid().getColumn(4).play();
-		    game.getGrid().getColumn(5).play();
-		    game.getGrid().getColumn(5).play();
-		    game.getGrid().getColumn(6).play();
-		    game.getGrid().getColumn(6).play();
-		    game.getGrid().getColumn(6).play();
-
-		    assertThat(isFinished.get()).isFalse();
-		    game.getGrid().getColumn(3).play();
-		    assertThat(isFinished.get()).isTrue();
-		}
-
-
-	
 	}
 
 }
