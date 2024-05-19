@@ -13,7 +13,7 @@ public class StopCondition {
 		this.game=game;
 	}
 
-	public boolean isGameFinished() {
+	public Color getWinner() {
 		for (int i = 0; i < Game.COLUMNS_NUMBER; i++) {
 			if (game.getToken(MIDDLE_COLUMN, i) == null)
 				continue;
@@ -36,8 +36,8 @@ public class StopCondition {
 			} while (Math.abs(MIDDLE_COLUMN - j) < REQUIRED_ALIGNED_TOKENS_TO_WIN - 1);
 
 			if (coloredCell.size() >= REQUIRED_ALIGNED_TOKENS_TO_WIN)
-				return true;
+				return color;
 		}
-		return false;
+		return null;
 	}
 }

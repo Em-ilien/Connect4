@@ -22,11 +22,19 @@ public class Game {
 	public void play(int column) {
 		columns.get(column).play(currentColor);
 
-		final StopCondition stopCondition = new StopCondition(this);
-		if (stopCondition.isGameFinished())
+		if (isGameFinished())
 			notifyListeners(EventType.STOP_GAME);
 		else
 			currentColor = currentColor.getOther();
+	}
+
+	public boolean isGameFinished() {
+		return getWinner() != null;
+	}
+
+	public Color getWinner() {
+		final StopCondition stopCondition = new StopCondition(this);
+		return stopCondition.getWinner();
 	}
 
 	private void notifyListeners(EventType eventType) {
